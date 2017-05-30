@@ -82,7 +82,9 @@ class Entrance extends React.Component {
     }
 
     onRegisterClick() {
-        const mobileValue = this.state.mobileValue;
+        const { routes } = this.context;
+        routes.initialSetting();
+        /*const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);
         if (this.state.mobileValue.length <= 0) {
             Toast.fail('请填写您的手机号码');
@@ -97,7 +99,7 @@ class Entrance extends React.Component {
         } else {
             const { entranceActions } = this.props;
             entranceActions.fetchRegister(trimStr, this.state.pswdValue, this.state.pswdCfmValue);
-        }
+        }*/
     }
 
     onLoginClick() {

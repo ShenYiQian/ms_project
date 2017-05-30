@@ -10,10 +10,13 @@ import {
     Button,
     Toast,
     Flex,
+    List,
     ImagePicker,
     WingBlank,
-    WhiteSpace
+    WhiteSpace,
+    Picker
 } from 'antd-mobile';
+import cityConst from '../constants/cityConst';
 
 const { width: Width, height: Height } = Dimensions.get('window');
 
@@ -32,8 +35,29 @@ class PersonalSetting extends React.Component {
 
         this.state = {
             userName: '',
-            phone: ''
+            phone: '',
+            cityList: [
+                {
+                    'label': '北京市',
+                    'value': 'bj',
+                    'children': [{
+                        'label': '北京市',
+                        'value': 'bjs'
+                    }]
+                }, {
+                    'label': '上海市',
+                    'value': 'sh',
+                    'children': [{
+                        'label': '上海市',
+                        'value': 'shs'
+                    }]
+                },
+            ],
+            value: ['sh', 'shs']
         }
+
+
+        console.warn(cityConst);
     }
 
     componentDidMount() {
@@ -48,15 +72,27 @@ class PersonalSetting extends React.Component {
 
     }
 
+    onClick = () => {
+        // console.log('start loading data');
+        setTimeout(() => {
+            this.setState({
+                cityList: ['上海', '香港', '北京'],
+            });
+        }, 500);
+    }
+
+    onChange = (value) => {
+        // console.log(value);
+        this.setState({ value });
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <WingBlank>
                     <Flex direction='row'>
-                        <Flex.Item>
-                            <ImagePicker />
-                        </Flex.Item>
-                        <Flex.Item direction='column'>
+                        <ImagePicker />
+                        <View style={{ flexDirection: 'column' }}>
                             <InputItem
                                 labelNumber={3}
                                 value={this.state.userName}
@@ -75,16 +111,24 @@ class PersonalSetting extends React.Component {
                                 value={this.state.phone}
                                 onChange={phone => {
                                     this.setState({
-                                       phone 
+                                        phone
                                     })
                                 }}
                                 maxLength={10}
                             >
                                 电话:
                             </InputItem>
-
-                        </Flex.Item>
+                        </View>
                     </Flex>
+                    <WhiteSpace />
+                    <Picker
+                        data={cityConst}
+                        cols={2}
+                        value={this.state.value}
+                        onChange={this.onChange}
+                    >
+                        <List.Item arrow="horizontal" last> 所在城市 </List.Item>
+                    </Picker>
                 </WingBlank>
             </View>
         )
@@ -93,7 +137,8 @@ class PersonalSetting extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        margin: 20
     }
 });
 
