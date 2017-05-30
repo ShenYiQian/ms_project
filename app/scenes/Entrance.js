@@ -26,7 +26,7 @@ const propTypes = {
 
 const contextTypes = {
     routes: PropTypes.object.isRequired
-}
+};
 
 class Entrance extends React.Component {
     constructor(props) {
@@ -36,7 +36,8 @@ class Entrance extends React.Component {
             viewState: this.props.viewState, // 0 register 1 login
             translateReg: new Animated.Value(this.props.viewState === 0 ? 0 : Width),
             translateLog: new Animated.Value(this.props.viewState === 1 ? 0 : Width),
-            phoneValue: '',
+            isLoading: false,
+            mobileValue: '',
             pswdValue: '',
             pswdCfmValue: ''
         }
@@ -50,37 +51,75 @@ class Entrance extends React.Component {
 
     }
 
-    checkIsPhone() {
-        const phoneValue = this.state.phoneValue;
-        const trimStr = trimString(phoneValue);
+    componentWillReceiveProps(nextProps) {
+        const { entrance } = this.props;
+        const { entrance: nextEntrance } = nextProps;
+        console.warn('currect entrance is = ', entrance, '    next entrance is = ', nextEntrance);
+        if (entrance.isLogin || entrance.isRegister) {
+            return;
+        }
+        if (entrance.isLoading != nextEntrance.isLoading) {
+            this.setState({
+                isLoading: nextEntrance.isLoading
+            })
+        }
+        if (entrance.isLoading && !nextEntrance.isLoading) {
+            if (!entrance.isRegister && nextEntrance.isRegister) {
+                Toast.success('注册成功');
+            }
+            if (!entrance.isLogin && nextEntrance.isLogin) {
+                Toast.success('登陆成功');
+            }
+            if (nextEntrance.payload && typeof (nextEntrance.payload) === 'string') {
+                Toast.fail(nextEntrance.payload);
+            }
+        }
+    }
+
+    checkIsMobile(str) {
         let regExp = new RegExp(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
-        return regExp.test(trimStr);
+        return regExp.test(str);
     }
 
     onRegisterClick() {
-        if (this.state.phoneValue.length <= 0) {
+        const mobileValue = this.state.mobileValue;
+        const trimStr = trimString(mobileValue);
+        if (this.state.mobileValue.length <= 0) {
             Toast.fail('请填写您的手机号码');
         } else if (this.state.pswdValue.length <= 0) {
             Toast.fail('请填写您的密码');
         } else if (this.state.pswdCfmValue.length <= 0) {
             Toast.fail('请确认您的密码');
-        } else if (!this.checkIsPhone()) {
+        } else if (!this.checkIsMobile(trimStr)) {
             Toast.fail('您输入的手机号码格式不正确');
         } else if (this.state.pswdValue !== this.state.pswdCfmValue) {
             Toast.fail('您输入的两个密码不一致');
         } else {
-
+            const { entranceActions } = this.props;
+            entranceActions.fetchRegister(trimStr, this.state.pswdValue, this.state.pswdCfmValue);
         }
     }
 
     onLoginClick() {
+        const mobileValue = this.state.mobileValue;
+        const trimStr = trimString(mobileValue);
+        if (this.state.mobileValue.length <= 0) {
+            Toast.fail('请填写您的手机号码');
+        } else if (this.state.pswdValue.length <= 0) {
+            Toast.fail('请填写您的密码');
+        } else if (!this.checkIsMobile(trimStr)) {
+            Toast.fail('您输入的手机号码格式不正确');
+        } else {
+            const { entranceActions } = this.props;
+            entranceActions.fetchLogin(trimStr, this.state.pswdValue);
+        }
 
     }
 
     changeState(state) {
         this.setState({
             viewState: state,
-            phoneValue: '',
+            mobileValue: '',
             pswdValue: '',
             pswdCfmValue: ''
         })
@@ -109,12 +148,12 @@ class Entrance extends React.Component {
             <Animated.View style={[styles.container, { transform: [{ translateX: this.state.translateReg }], position: 'absolute' }]}>
                 <InputItem
                     clear
-                    type='phone'
+                    type='mobile'
                     labelNumber={6}
-                    value={this.state.phoneValue}
-                    onChange={phoneValue => {
+                    value={this.state.mobileValue}
+                    onChange={mobileValue => {
                         this.setState({
-                            phoneValue
+                            mobileValue
                         })
                     }}
                     maxLength={13}
@@ -150,7 +189,7 @@ class Entrance extends React.Component {
                     请重复密码：
                 </InputItem>
                 <WhiteSpace style={{ height: 50 }} />
-                <Button style={[{ width: Width * .8 }]} type='primary' onClick={this.onRegisterClick.bind(this)}>
+                <Button loading={this.state.isLoading} style={[{ width: Width * .8 }]} type='primary' onClick={this.onRegisterClick.bind(this)}>
                     注册
                 </Button>
                 <Text style={styles.text} onPress={() => {
@@ -167,8 +206,14 @@ class Entrance extends React.Component {
             <Animated.View style={[styles.container, { transform: [{ translateX: this.state.translateLog }], position: 'absolute' }]}>
                 <InputItem
                     clear
-                    type='phone'
+                    type='mobile'
                     labelNumber={6}
+                    value={this.state.mobileValue}
+                    onChange={mobileValue => {
+                        this.setState({
+                            mobileValue
+                        })
+                    }}
                     maxLength={13}
                 >
                     您的手机号：
@@ -177,6 +222,12 @@ class Entrance extends React.Component {
                     clear
                     type='password'
                     labelNumber={6}
+                    value={this.state.pswdValue}
+                    onChange={pswdValue => {
+                        this.setState({
+                            pswdValue
+                        })
+                    }}
                     maxLength={8}
                 >
                     请输入密码：

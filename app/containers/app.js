@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import Splash from '../scenes/Splash';
 import MainContainer from '../containers/MainContainer';
 import EntranceContainer from '../containers/EntranceContainer';
+import PersonalSettingContainer from '../containers/PersonalSettingContainer';
 import TabIcon from '../components/TabIcon';
 
 const RouterWithRedux = connect()(Router);
@@ -58,13 +59,21 @@ class App extends React.Component {
                         component={Splash}
                         hideNavBar
                         hideTabBar
-                        initial />
+                        initial 
+                    />
                     <Scene
                         key='entrance'
                         component={EntranceContainer}
                         hideTabBar
                         hideNavBar
                         type={ActionConst.RESET}
+                    />
+                    <Scene
+                        key='initialSetting'
+                        component={PersonalSettingContainer}
+                        hideNavBar
+                        hideTabBar
+                        type={ActionConst.PUSH}
                     />
                 </Scene>
             </RouterWithRedux>

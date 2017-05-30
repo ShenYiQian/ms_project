@@ -6,7 +6,7 @@ const initialState = {
     isLoading: false
 };
 
-export default function entrance(state = initialState, action) {
+export default function userInfo(state = initialState, action) {
     switch (action.type) {
         case ActionTypes.FETCH_LOGIN_START:
         case ActionTypes.FETCH_REGISTER_START:

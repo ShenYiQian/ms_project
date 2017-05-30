@@ -1,11 +1,11 @@
 import * as types from '../constants/ActionTypes';
 import { requestBlob } from '../utils/RequestUtils';
 
-export function fetchLogin(phone, pswd) {
+export function fetchLogin(mobile, pswd) {
     return dispatch => {
         dispatch(fetchLoginStart());
         return requestBlob('auth/login/', {
-            phone,
+            mobile,
             pswd
         })
             .then(result => {
@@ -17,11 +17,11 @@ export function fetchLogin(phone, pswd) {
     }
 }
 
-export function fetchRegister(phone, pswd, pswdCfm) {
+export function fetchRegister(mobile, pswd, pswdCfm) {
     return dispatch => {
         dispatch(fetchRegisterStart());
         return requestBlob('auth/register/', {
-            phone,
+            mobile,
             pswd,
             pswdCfm
         })

@@ -22,9 +22,9 @@ export function requestBlob(url, params) {
         RNFetchBlob.fetch('GET', request_url)
             .then(res => {
                 let json = res.json();
-                if (json.result === 'ok') {
-                    console.log('fetch success url = ' + request_url);
-                    resolve(json.data);
+                if (json.status === 'ok') {
+                    console.warn('fetch success url = ' + request_url);
+                    resolve(json);
                 } else {
                     console.warn('fetch failed url = ' + request_url);
                     reject(json.msg);
