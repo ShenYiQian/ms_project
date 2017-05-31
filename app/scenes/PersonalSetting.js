@@ -14,7 +14,8 @@ import {
     ImagePicker,
     WingBlank,
     WhiteSpace,
-    Picker
+    Picker,
+    TextareaItem
 } from 'antd-mobile';
 import cityConst from '../constants/cityConst';
 
@@ -36,28 +37,9 @@ class PersonalSetting extends React.Component {
         this.state = {
             userName: '',
             phone: '',
-            cityList: [
-                {
-                    'label': '北京市',
-                    'value': 'bj',
-                    'children': [{
-                        'label': '北京市',
-                        'value': 'bjs'
-                    }]
-                }, {
-                    'label': '上海市',
-                    'value': 'sh',
-                    'children': [{
-                        'label': '上海市',
-                        'value': 'shs'
-                    }]
-                },
-            ],
-            value: ['sh', 'shs']
+            company: '',
+            value: ['shs', 'shs']
         }
-
-
-        console.warn(cityConst);
     }
 
     componentDidMount() {
@@ -72,17 +54,8 @@ class PersonalSetting extends React.Component {
 
     }
 
-    onClick = () => {
-        // console.log('start loading data');
-        setTimeout(() => {
-            this.setState({
-                cityList: ['上海', '香港', '北京'],
-            });
-        }, 500);
-    }
-
     onChange = (value) => {
-        // console.log(value);
+        console.warn(value);
         this.setState({ value });
     }
 
@@ -127,8 +100,24 @@ class PersonalSetting extends React.Component {
                         value={this.state.value}
                         onChange={this.onChange}
                     >
-                        <List.Item arrow="horizontal" last> 所在城市 </List.Item>
+                        <List.Item arrow='horizontal' last> 所在城市 </List.Item>
                     </Picker>
+                    <WhiteSpace />
+                    <InputItem
+                        clear
+                        labelNumber={5}
+                        value={this.state.company}
+                        onChange={(value) => {
+                            this.setState({
+                                company: value,
+                            });
+                        }}
+                        placeholder='您目前所在的公司'
+                    >
+                        您的公司:
+                    </InputItem>
+                    <WhiteSpace />
+                    <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />
                 </WingBlank>
             </View>
         )
