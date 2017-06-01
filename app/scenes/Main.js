@@ -5,6 +5,9 @@ import {
     View,
     Text
 } from 'react-native';
+import {
+    Button
+} from 'antd-mobile';
 
 const { width: Width, height: Height } = Dimensions.get('window');
 
@@ -30,12 +33,18 @@ class Main extends React.Component {
 
     }
 
+    onClick = () => {
+        const { routes } = this.context;
+        routes.personalSetting();
+    }
+
     render() {
         return (
             <View>
                 <Text>
                     aaaaa
                 </Text>
+                <Button type='primary' onClick={this.onClick}>测试</Button>
             </View>
         )
     }

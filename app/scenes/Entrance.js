@@ -83,7 +83,8 @@ class Entrance extends React.Component {
 
     onRegisterClick() {
         const { routes } = this.context;
-        routes.initialSetting();
+        routes.tabbar();
+        //routes.initialSetting();
         /*const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);
         if (this.state.mobileValue.length <= 0) {
