@@ -12,8 +12,8 @@ import {
 const { width: Width, height: Height } = Dimensions.get('window');
 
 const propTypes = {
-  mainActions: PropTypes.object,
-  main: PropTypes.object.isRequired
+    mainActions: PropTypes.object,
+    main: PropTypes.object.isRequired
 };
 
 const contextTypes = {

@@ -35,20 +35,36 @@ const TabContainer = TabNavigator(
         }
     }
 );
+
 const App = StackNavigator(
     {
-        Splash: { screen: Splash },
-        Entrance: { screen: EntranceContainer },
+        Splash: {
+            screen: Splash,
+            navigationOptions: {
+                header: null
+            }
+        },
+        Entrance: { 
+            screen: EntranceContainer,
+            navigationOptions: {
+                header: null
+            }
+        },
         Home: {
             screen: TabContainer,
-            navgiationOptions: {
-                headerLeft: null
+            navigationOptions: {
+                header: null
             }
         }
     },
     {
+        initialRouteName: 'Splash',
+        mode: 'card',
         headerMode: 'screen',
         navigationOptions: {
+            cardStack: {
+                gesturesEnabled: true
+            },
             headerStyle: {
                 backgroundColor: '#3e9ce9'
             },
@@ -60,4 +76,5 @@ const App = StackNavigator(
         }
     }
 )
+
 export default App;

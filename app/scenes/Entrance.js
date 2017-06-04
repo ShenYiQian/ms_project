@@ -31,11 +31,13 @@ const contextTypes = {
 class Entrance extends React.Component {
     constructor(props) {
         super(props);
+        const { params } = this.props.navigation.state;
+        console.warn(params.viewState);
 
         this.state = {
-            viewState: this.props.viewState, // 0 register 1 login
-            translateReg: new Animated.Value(this.props.viewState === 0 ? 0 : Width),
-            translateLog: new Animated.Value(this.props.viewState === 1 ? 0 : Width),
+            viewState: params.viewState, // 0 register 1 login
+            translateReg: new Animated.Value(params.viewState === 0 ? 0 : Width),
+            translateLog: new Animated.Value(params.viewState === 1 ? 0 : Width),
             isLoading: false,
             mobileValue: '',
             pswdValue: '',
@@ -82,8 +84,8 @@ class Entrance extends React.Component {
     }
 
     onRegisterClick() {
-        const { routes } = this.context;
-        routes.tabbar();
+        const { navigate } = this.props.navigation;
+        navigate('Home');
         //routes.initialSetting();
         /*const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);

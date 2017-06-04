@@ -3,7 +3,7 @@ import { Dimensions, Animated } from 'react-native';
 import { registerApp } from 'react-native-wechat';
 import { getStringForKey } from '../utils/SyncUtils';
 import { requestBlob } from '../utils/RequestUtils';
-import NavigationUtil from '../utils/NavigationUtil';
+import NavigatorUtils from '../utils/NavigatorUtils';
 
 const maxHeight = Dimensions.get('window').height;
 const maxWidth = Dimensions.get('window').width;
@@ -31,7 +31,7 @@ class Splash extends React.Component {
                 let result = await requestBlob('auth/logintoken/', {
                     token
                 });
-                NavigationUtil.reset(this.props.navigation, 'Home');
+                NavigatorUtils.reset(this.props.navigation, 'Home');
             } else {
                 navigate('Entrance', {viewState: 0});
             }
