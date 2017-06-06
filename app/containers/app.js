@@ -50,6 +50,12 @@ const App = StackNavigator(
                 header: null
             }
         },
+        InitSetting: {
+            screen: PersonalSettingContainer,
+            navigationOptions: {
+                header: null
+            }
+        },
         Home: {
             screen: TabContainer,
             navigationOptions: {

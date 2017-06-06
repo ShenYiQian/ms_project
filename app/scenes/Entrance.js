@@ -32,7 +32,6 @@ class Entrance extends React.Component {
     constructor(props) {
         super(props);
         const { params } = this.props.navigation.state;
-        console.warn(params.viewState);
 
         this.state = {
             viewState: params.viewState, // 0 register 1 login
@@ -85,7 +84,7 @@ class Entrance extends React.Component {
 
     onRegisterClick() {
         const { navigate } = this.props.navigation;
-        navigate('Home');
+        navigate('InitSetting');
         //routes.initialSetting();
         /*const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import {
     StyleSheet,
     Dimensions,
+    BackHandler,
     View,
     Text
 } from 'react-native';
@@ -46,11 +47,15 @@ class PersonalSetting extends React.Component {
     }
 
     componentDidMount() {
-
+        BackHandler.addEventListener('hardwareBackPress', this.onBack);
     }
 
     componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBack);
+    }
 
+    onBack() {
+        return true;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -77,7 +82,7 @@ class PersonalSetting extends React.Component {
     renderDoctor() {
         return (
             <WingBlank>
-                <Flex direction='row'>
+                <Flex direction='row' style={{paddingTop: 20}}>
                     <ImagePicker />
                     <View style={{ flexDirection: 'column' }}>
                         <InputItem
@@ -142,7 +147,7 @@ class PersonalSetting extends React.Component {
                 <WhiteSpace />
                 <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />
                 <WhiteSpace style={{ height: 100 }} />
-                <Button type='primary' style={[{ width: Width * .8 }]} onClick={this.onClick.bind(this)}>
+                <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
                     下一步
                 </Button>
             </WingBlank>
@@ -176,7 +181,7 @@ class PersonalSetting extends React.Component {
                 <WhiteSpace />
                 <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />
                 <WhiteSpace style={{ height: 100 }} />
-                <Button type='primary' style={[{ width: Width * .8 }]} onClick={this.onClick.bind(this)}>
+                <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
                     下一步
                     </Button>
             </WingBlank>
@@ -200,7 +205,6 @@ class PersonalSetting extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 20
     }
 });
 
