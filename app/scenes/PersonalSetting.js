@@ -76,7 +76,8 @@ class PersonalSetting extends React.Component {
     }
 
     onClick = () => {
-
+        const { navigate } = this.props.navigation;
+        navigate('FreeTimeSetting', {navigatePress: null});
     }
 
     renderDoctor() {

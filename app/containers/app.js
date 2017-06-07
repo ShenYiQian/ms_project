@@ -4,6 +4,7 @@ import Splash from '../scenes/Splash';
 import MainContainer from '../containers/MainContainer';
 import EntranceContainer from '../containers/EntranceContainer';
 import PersonalSettingContainer from '../containers/PersonalSettingContainer';
+import FreeTimeSettingContainer from '../containers/FreeTimeSettingContainer';
 
 import {
     StyleSheet
@@ -55,6 +56,9 @@ const App = StackNavigator(
             navigationOptions: {
                 header: null
             }
+        },
+        FreeTimeSetting: {
+            screen: FreeTimeSettingContainer
         },
         Home: {
             screen: TabContainer,
