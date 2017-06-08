@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Dimensions,
     BackHandler,
+    ScrollView,
     View,
     Text
 } from 'react-native';
@@ -16,6 +17,8 @@ import {
     WingBlank,
     WhiteSpace,
     Picker,
+    Grid,
+    Checkbox,
     TextareaItem
 } from 'antd-mobile';
 import cityConst from '../constants/cityConst';
@@ -42,7 +45,7 @@ class PersonalSetting extends React.Component {
             company: '',
             cityValue: ['shs', 'shs'],
             officeValue: ['gk'],
-            isDoctor: true 
+            isDoctor: true
         }
     }
 
@@ -64,8 +67,8 @@ class PersonalSetting extends React.Component {
 
     onChangeCity = (value) => {
         console.warn(value);
-        this.setState({ 
-            cityValue: value 
+        this.setState({
+            cityValue: value
         });
     }
 
@@ -77,13 +80,19 @@ class PersonalSetting extends React.Component {
 
     onClick = () => {
         const { navigate } = this.props.navigation;
-        navigate('FreeTimeSetting', {navigatePress: null});
+        navigate('FreeTimeSetting', { navigatePress: null });
     }
 
     renderDoctor() {
+        const gridData = [];
+        for (let i = 0; i < 14; i++) {
+            gridData.push(
+                <Checkbox />
+            )
+        }
         return (
             <WingBlank>
-                <Flex direction='row' style={{paddingTop: 20}}>
+                <Flex direction='row' style={{ paddingTop: 20 }}>
                     <ImagePicker />
                     <View style={{ flexDirection: 'column' }}>
                         <InputItem
@@ -97,7 +106,7 @@ class PersonalSetting extends React.Component {
                             maxLength={10}
                         >
                             姓名:
-                            </InputItem>
+                        </InputItem>
                         <InputItem
                             type='phone'
                             labelNumber={13}
@@ -147,6 +156,15 @@ class PersonalSetting extends React.Component {
                 </Picker>
                 <WhiteSpace />
                 <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />
+                <WhiteSpace />
+                <Grid
+                    data={gridData}
+                    columnNum={7}
+                    hasLine={true}
+                    renderItem={(el, index) => (
+                        <Checkbox />
+                    )}
+                />
                 <WhiteSpace style={{ height: 100 }} />
                 <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
                     下一步
@@ -191,14 +209,16 @@ class PersonalSetting extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                {
-                    this.state.isDoctor ?
-                        this.renderDoctor()
-                        :
-                        this.renderHospital()
-                }
-            </View>
+            <ScrollView>
+                <View style={styles.container}>
+                    {
+                        this.state.isDoctor ?
+                            this.renderDoctor()
+                            :
+                            this.renderHospital()
+                    }
+                </View>
+            </ScrollView>
         )
     }
 };
