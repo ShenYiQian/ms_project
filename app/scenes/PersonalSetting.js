@@ -68,7 +68,8 @@ class PersonalSetting extends React.Component {
     onChangeCity = (value) => {
         console.warn(value);
         this.setState({
-            cityValue: value
+            cityValue: value,
+            freeValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         });
     }
 
@@ -83,13 +84,98 @@ class PersonalSetting extends React.Component {
         navigate('FreeTimeSetting', { navigatePress: null });
     }
 
-    renderDoctor() {
-        const gridData = [];
-        for (let i = 0; i < 14; i++) {
-            gridData.push(
-                <Checkbox />
+    renderFreeTime() {
+        const rowsArr = [];
+        let gridData = [{}];
+        ['一', '二', '三', '四', '五', '六', '日'].map(v => {
+            gridData.push({
+                text: `周${v}`
+            })
+        })
+        let index = 0;
+        ['上午', '下午'].map(v => {
+            gridData.push({
+                text: v
+            });
+            for (let i = 0; i < 7; i++) {
+                gridData.push({
+                    checkbox: index * 2 + i
+                })
+            }
+            index++;
+        })
+        const columnNum = 8;
+        const rowNum = Math.ceil(gridData.length / columnNum);
+        for (let i = 0; i < rowNum; i++) {
+            const rowArr = [];
+            for (let j = 0; j < columnNum; j++) {
+                const dataIndex = i * columnNum + j;
+                if (dataIndex < gridData.length) {
+                    const el = gridData && gridData[dataIndex];
+                    rowArr.push(
+                        <Flex.Item
+                            key={j}
+                            style={ dataIndex > 7 ? {paddingTop: 20} : {} }
+                        >
+                            {this.renderItem(el, dataIndex)}
+                        </Flex.Item>
+                    )
+                } else {
+                    rowArr.push(
+                        <Flex.Item key={j} />
+                    )
+                }
+            }
+            rowsArr.push(
+                <Flex key={i}>
+                    {rowArr}
+                </Flex>
             )
         }
+
+        return (
+            <Flex direction='column'>
+                {rowsArr}
+            </Flex>
+        )
+    }
+
+    renderItem(el, index) {
+        console.log(el);
+        if (typeof (el.text) === 'string') {
+            return (
+                <Text>{el.text}</Text>
+            )
+        } else if (typeof (el.checkbox) === 'number') {
+            return (
+                <Checkbox />
+            )
+        } else {
+            return (
+                <View />
+            )
+        }
+    }
+
+    renderDoctor() {
+        let gridData = [{}];
+        ['一', '二', '三', '四', '五', '六', '日'].map(v => {
+            gridData.push({
+                text: `周${v}`
+            })
+        })
+        let index = 0;
+        ['上午', '下午'].map(v => {
+            gridData.push({
+                text: v
+            });
+            for (let i = 0; i < 7; i++) {
+                gridData.push({
+                    checkbox: index * 2 + i
+                })
+            }
+            index++;
+        })
         return (
             <WingBlank>
                 <Flex direction='row' style={{ paddingTop: 20 }}>
@@ -157,15 +243,12 @@ class PersonalSetting extends React.Component {
                 <WhiteSpace />
                 <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />
                 <WhiteSpace />
-                <Grid
-                    data={gridData}
-                    columnNum={7}
-                    hasLine={true}
-                    renderItem={(el, index) => (
-                        <Checkbox />
-                    )}
-                />
-                <WhiteSpace style={{ height: 100 }} />
+                <Text style={{fontSize: 17, fontWeight: 'bold', color: '#000'}}>空闲时段</Text>
+                <WhiteSpace />
+                {
+                    this.renderFreeTime()
+                }
+                <WhiteSpace style={{ height: 50 }} />
                 <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
                     下一步
                 </Button>
