@@ -23,6 +23,7 @@ import {
 } from 'antd-mobile';
 import cityConst from '../constants/cityConst';
 import officeConst from '../constants/officeConst';
+import titleConst from '../constants/titleConst';
 
 const { width: Width, height: Height } = Dimensions.get('window');
 
@@ -45,6 +46,8 @@ class PersonalSetting extends React.Component {
             company: '',
             cityValue: ['shs', 'shs'],
             officeValue: ['gk'],
+            titleValue: ['zzys'],
+            freeValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             isDoctor: true
         }
     }
@@ -66,10 +69,8 @@ class PersonalSetting extends React.Component {
     }
 
     onChangeCity = (value) => {
-        console.warn(value);
         this.setState({
-            cityValue: value,
-            freeValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            cityValue: value
         });
     }
 
@@ -77,6 +78,12 @@ class PersonalSetting extends React.Component {
         this.setState({
             officeValue: value
         });
+    }
+
+    onChangeTitle = (value) => {
+        this.setState({
+            titleValue: value
+        })
     }
 
     onClick = () => {
@@ -178,7 +185,7 @@ class PersonalSetting extends React.Component {
         })
         return (
             <WingBlank>
-                <Flex direction='row' style={{ paddingTop: 20 }}>
+                <Flex direction='row' style={{ paddingTop: 10 }}>
                     <ImagePicker />
                     <View style={{ flexDirection: 'column' }}>
                         <InputItem
@@ -231,6 +238,15 @@ class PersonalSetting extends React.Component {
                 >
                     所在医院:
                 </InputItem>
+                <Picker
+                    data={titleConst}
+                    cols={1}
+                    value={this.state.titleValue}
+                    onChange={this.onChangeTitle}
+                >
+                    <List.Item arrow='horizontal' last> 职称 </List.Item>
+                </Picker>
+                <WhiteSpace />
                 <WhiteSpace />
                 <Picker
                     data={officeConst}
@@ -248,9 +264,9 @@ class PersonalSetting extends React.Component {
                 {
                     this.renderFreeTime()
                 }
-                <WhiteSpace style={{ height: 50 }} />
+                <WhiteSpace />
                 <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
-                    下一步
+                   完成注册 
                 </Button>
             </WingBlank>
         )
