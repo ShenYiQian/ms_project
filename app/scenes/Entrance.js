@@ -55,7 +55,6 @@ class Entrance extends React.Component {
     componentWillReceiveProps(nextProps) {
         const { entrance } = this.props;
         const { entrance: nextEntrance } = nextProps;
-        console.warn('currect entrance is = ', entrance, '    next entrance is = ', nextEntrance);
         if (entrance.isLogin || entrance.isRegister) {
             return;
         }

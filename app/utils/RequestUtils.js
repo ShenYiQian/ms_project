@@ -23,15 +23,15 @@ export function requestBlob(url, params) {
             .then(res => {
                 let json = res.json();
                 if (json.status === 'ok') {
-                    console.warn('fetch success url = ' + request_url);
+                    console.log('fetch success url = ' + request_url);
                     resolve(json);
                 } else {
-                    console.warn('fetch failed url = ' + request_url);
+                    console.log('fetch failed url = ' + request_url);
                     reject(json.msg);
                 }
             })
             .catch(err => {
-                console.warn('fetch failed url = ' + request_url);
+                console.log('fetch failed url = ' + request_url);
                 reject('网络中断，请稍后重新连接');
             })
     })
@@ -52,12 +52,12 @@ export function uploadImage(type, default_avatar, token, image_uri) {
                     console.log('server uploadimage success');
                     resolve(true);
                 } else {
-                    console.warn('server reject uploadimage json = ', json);
+                    console.log('server reject uploadimage json = ', json);
                     reject(json);
                 }
             })
             .catch(err => {
-                console.warn('blob throw err = ', err);
+                console.log('blob throw err = ', err);
                 reject(err);
             })
     })

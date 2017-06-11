@@ -31,7 +31,6 @@ class FreeContent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.warn('FreeContent receive next props', nextProps);
         const { officeConst } = nextProps;
         this.setState({
             offices: officeConst
@@ -127,7 +126,7 @@ class FreeContent extends React.Component {
 
     onClick = () => {
         const { onSave } = this.props;
-        const office = this.state.officeValue[0];
+        const office = this.state.officeValue.length > 0 ? this.state.officeValue[0] : '';
         let weekdays = [];
         for(let i=0;i<7;i++) {
             const mst = this.state.freeValue[i];

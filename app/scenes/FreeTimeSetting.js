@@ -10,12 +10,13 @@ import {
 import {
     Popup,
     Flex,
+    Toast,
     SwipeAction,
     WingBlank,
     WhiteSpace
 } from 'antd-mobile';
 import FreeContent from '../components/FreeContent';
-import officeConst from '../constants/officeConst';   
+import officeConst from '../constants/officeConst';
 
 const { width: Width, height: Height } = Dimensions.get('window');
 
@@ -50,19 +51,21 @@ class FreeTimeSetting extends React.Component {
     }
 
     onSaveItem = (office, weekdays) => {
-        console.warn('office = ' + office + '  weekdays = ', weekdays);
+        if (office.length <= 0) {
+            Popup.hide();
+            Toast.fail('请选择科室');
+            return;
+        }
         let offArr = this.state.offices;
         let findIndex = -1;
-        for(let i=0;i<offArr.length;i++) {
-            if(offArr[i].value === office) {
+        for (let i = 0; i < offArr.length; i++) {
+            if (offArr[i].value === office) {
                 findIndex = i;
             }
         }
-        console.warn('findIndex = '+findIndex);
         let newArr = [];
-        if(findIndex >= 0) {
+        if (findIndex >= 0) {
             newArr = offArr.splice(findIndex, 1);
-            console.warn('after splice', newArr);
         }
         let source = this.state.dataSource;
         source.push({ office, weekdays })
@@ -70,7 +73,6 @@ class FreeTimeSetting extends React.Component {
             dataSource: source,
             offices: offArr
         })
-        console.warn('dataSource.length = ' + this.state.dataSource.length + '  source = ', source);
         Popup.hide();
     }
 
@@ -78,6 +80,16 @@ class FreeTimeSetting extends React.Component {
         return (
             <FreeContent officeConst={this.state.offices} onSave={this.onSaveItem} />
         )
+    }
+
+    getOfficeName = (value) => {
+        let officeName = '';
+        officeConst.map(v => {
+            if (v.value == value) {
+                officeName = v.label;
+            }
+        })
+        return officeName;
     }
 
     renderFreeTime = (weekdays) => {
@@ -89,7 +101,7 @@ class FreeTimeSetting extends React.Component {
             })
         })
         gridData.push({
-            text: '时段'
+            text: '空闲时段'
         });
         weekdays.map(v => {
             switch (v) {
@@ -152,12 +164,32 @@ class FreeTimeSetting extends React.Component {
 
     }
 
+    deleteRow = (index) => {
+        let dataSource = this.state.dataSource;
+        dataSource.splice(index, 1);
+        const orginOffice = officeConst.slice(0);
+        for (let i = 0; i < dataSource.length; i++) {
+            const data = dataSource[i];
+            for (let j = 0; j < orginOffice.length; j++) {
+                const officeData = orginOffice[j];
+                if(officeData.value === data.office) {
+                    orginOffice.splice(j, 1);
+                    break;
+                }
+            }
+        }
+        this.setState({
+            dataSource,
+            offices: orginOffice
+        })
+    }
+
     renderRow = (rowData) => {
         const { item, index } = rowData;
         const right = [
             {
                 text: '删除',
-                onPress: () => console.log('delete rowID is ' + rowData),
+                onPress: () => { this.deleteRow(index) },
                 style: { backgroundColor: 'red', color: 'white' }
             }
         ];
@@ -172,7 +204,7 @@ class FreeTimeSetting extends React.Component {
                 >
                     <View>
                         <WingBlank>
-                            <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#000' }}>{item.office}</Text>
+                            <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#000' }}>{this.getOfficeName(item.office)}</Text>
                             <WhiteSpace />
                             {
                                 this.renderFreeTime(item.weekdays)
@@ -186,7 +218,7 @@ class FreeTimeSetting extends React.Component {
 
     renderSeparatorComponent() {
         return (
-            <WhiteSpace style={{backgroundColor: '#e9e9ef'}} />
+            <WhiteSpace style={{ backgroundColor: '#e9e9ef' }} />
         )
     }
 
