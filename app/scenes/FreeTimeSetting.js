@@ -11,6 +11,7 @@ import {
     Popup,
     Flex,
     Toast,
+    Button,
     SwipeAction,
     WingBlank,
     WhiteSpace
@@ -47,7 +48,8 @@ class FreeTimeSetting extends React.Component {
     }
 
     navigatePress = () => {
-        Popup.show(this.getPopUpContent());
+        const { navigate } = this.props.navigation;
+        navigate('Home');
     }
 
     onSaveItem = (office, weekdays) => {
@@ -172,7 +174,7 @@ class FreeTimeSetting extends React.Component {
             const data = dataSource[i];
             for (let j = 0; j < orginOffice.length; j++) {
                 const officeData = orginOffice[j];
-                if(officeData.value === data.office) {
+                if (officeData.value === data.office) {
                     orginOffice.splice(j, 1);
                     break;
                 }
@@ -233,8 +235,13 @@ class FreeTimeSetting extends React.Component {
                             ItemSeparatorComponent={this.renderSeparatorComponent.bind(this)}
                         />
                         :
-                        <Text>aaaaa</Text>
+                        <Text style={{ alignSelf: 'center' }}>您还没有设定任何科室的空闲时间，请点击下方的添加按钮</Text>
                 }
+                <WingBlank style={{ position: 'absolute', bottom: 0, width: Width, alignSelf: 'center' }}>
+                    <Button type='primary' onClick={() => {
+                        Popup.show(this.getPopUpContent());
+                    }}>添加</Button>
+                </WingBlank>
             </View>
         )
     }

@@ -15,7 +15,7 @@ const TabContainer = TabNavigator(
         Main: { screen: MainContainer },
         Main1: { screen: MainContainer },
         Main2: { screen: MainContainer },
-        Main3: { screen: MainContainer }
+        Self: { screen: PersonalSettingContainer }
     },
     {
         lazy: true,

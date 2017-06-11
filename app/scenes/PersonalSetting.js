@@ -39,6 +39,12 @@ const contextTypes = {
 class PersonalSetting extends React.Component {
     constructor(props) {
         super(props);
+        const { params } = this.props.navigation.state;
+        console.warn('params = ', params);
+        let isInit = false;
+        if (typeof (params) !== 'undefined') {
+            isInit = params.init;
+        }
 
         this.state = {
             userName: '',
@@ -48,7 +54,8 @@ class PersonalSetting extends React.Component {
             officeValue: ['gk'],
             titleValue: ['zzys'],
             freeValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            isDoctor: true
+            isDoctor: true,
+            isInit
         }
     }
 
@@ -122,7 +129,7 @@ class PersonalSetting extends React.Component {
                     rowArr.push(
                         <Flex.Item
                             key={j}
-                            style={ dataIndex > 7 ? {paddingTop: 20} : {} }
+                            style={dataIndex > 7 ? { paddingTop: 20 } : {}}
                         >
                             {this.renderItem(el, dataIndex)}
                         </Flex.Item>
@@ -259,15 +266,22 @@ class PersonalSetting extends React.Component {
                 <WhiteSpace />
                 <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />
                 <WhiteSpace />
-                <Text style={{fontSize: 17, fontWeight: 'bold', color: '#000'}}>空闲时段</Text>
+                <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#000' }}>空闲时段</Text>
                 <WhiteSpace />
                 {
                     this.renderFreeTime()
                 }
                 <WhiteSpace />
-                <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
-                   完成注册 
-                </Button>
+                {
+                    this.state.isInit ?
+                        <View>
+                            <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
+                                完成注册
+                        </Button>
+                        </View>
+                        :
+                        <View />
+                }
             </WingBlank>
         )
     }

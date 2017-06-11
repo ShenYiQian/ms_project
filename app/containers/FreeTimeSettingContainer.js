@@ -23,8 +23,8 @@ class FreeTimeSettingContainer extends React.Component {
         return {
             headerRight: (
                 <Flex style={{paddingRight: 20}} direction='column' onPress={state.params.navigatePress}>
-                    <FontAwesome name='plus' size={25} color='#fff'/>
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}> 添加 </Text>
+                    <FontAwesome name='undo' size={25} color='#fff'/>
+                    <Text style={{ color: '#fff', fontWeight: 'bold' }}> 跳过 </Text>
                 </Flex>
             )
         };

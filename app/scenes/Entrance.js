@@ -83,7 +83,7 @@ class Entrance extends React.Component {
 
     onRegisterClick() {
         const { navigate } = this.props.navigation;
-        navigate('InitSetting');
+        navigate('InitSetting', {'init': true});
         //routes.initialSetting();
         /*const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);
