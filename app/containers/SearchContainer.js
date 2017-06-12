@@ -10,8 +10,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 class SearchContainer extends React.Component {
     static navigationOptions = {
+        title: '搜索',
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome name="搜索" size={25} color={tintColor} />
+            <FontAwesome name="search" size={25} color={tintColor} />
         )
     };
 

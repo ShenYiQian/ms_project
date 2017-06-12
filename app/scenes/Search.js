@@ -29,12 +29,32 @@ class Search extends React.Component {
     componentDidMount() {
     }
 
+    onSubmit = (value) => {
+        console.log('onSubmit = ' + value);
+    }
+
+    onCancel = () => {
+        this.setState({
+            value: ''
+        })
+    }
+
+    onChange = (value) => {
+        this.setState({
+            value
+        })
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <SearchBar
                     value={this.state.value}
                     placeholder='XXX'
+                    onSubmit={this.onSubmit.bind(this)}
+                    onCancel={this.onCancel.bind(this)}
+                    onChange={this.onChange.bind(this)}
+                    showCancelButton
                 />
             </View>
         )
