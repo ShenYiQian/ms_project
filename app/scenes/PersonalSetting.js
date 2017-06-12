@@ -40,7 +40,6 @@ class PersonalSetting extends React.Component {
     constructor(props) {
         super(props);
         const { params } = this.props.navigation.state;
-        console.warn('params = ', params);
         let isInit = false;
         if (typeof (params) !== 'undefined') {
             isInit = params.init;
@@ -160,7 +159,6 @@ class PersonalSetting extends React.Component {
     }
 
     renderItem(el, index) {
-        console.log(el);
         if (typeof (el.text) === 'string') {
             return (
                 <Text>{el.text}</Text>

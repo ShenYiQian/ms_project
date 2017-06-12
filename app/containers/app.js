@@ -3,6 +3,7 @@ import React from 'react';
 import Splash from '../scenes/Splash';
 import MainContainer from '../containers/MainContainer';
 import EntranceContainer from '../containers/EntranceContainer';
+import SearchContainer from '../containers/SearchContainer';
 import PersonalSettingContainer from '../containers/PersonalSettingContainer';
 import FreeTimeSettingContainer from '../containers/FreeTimeSettingContainer';
 
@@ -13,7 +14,7 @@ import {
 const TabContainer = TabNavigator(
     {
         Main: { screen: MainContainer },
-        Main1: { screen: MainContainer },
+        Search: { screen: SearchContainer },
         Main2: { screen: MainContainer },
         Self: { screen: PersonalSettingContainer }
     },
