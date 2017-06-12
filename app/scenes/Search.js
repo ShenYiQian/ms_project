@@ -14,6 +14,7 @@ import {
     WingBlank,
     WhiteSpace
 } from 'antd-mobile';
+import { setObjectForKey, getObjectForKey } from '../utils/SyncUtils';
 
 const { width: Width, height: Height } = Dimensions.get('window');
 
@@ -29,8 +30,20 @@ class Search extends React.Component {
     componentDidMount() {
     }
 
-    onSubmit = (value) => {
+    onSubmit = async (value) => {
         console.log('onSubmit = ' + value);
+        try{
+            let history = await getObjectForKey('ms_search_history');
+            if(history === null) {
+                setObjectForKey('ms_search_history', JSON.stringify([value]));
+            } else {
+                let historySet = new Set(history);
+                historySet.add(value);
+                setObjectForKey('ms_search_history', [...historySet]);
+            }
+        } catch(e) {
+
+        }
     }
 
     onCancel = () => {
