@@ -12,11 +12,6 @@ import {
 } from 'antd-mobile';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const gridData = {
-    icon: (<FontAwesome name='plus' size={25} color='#fff' />),
-    text: '添加'
-};
-
 class FreeTimeSettingContainer extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;

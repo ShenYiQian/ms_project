@@ -93,9 +93,14 @@ class PersonalSetting extends React.Component {
         })
     }
 
-    onClick = () => {
+    showMain = () => {
         const { navigate } = this.props.navigation;
-        navigate('FreeTimeSetting', { navigatePress: null });
+        navigate('Home');
+    }
+
+    showFreeTime = () => {
+        const { navigate } = this.props.navigation;
+        navigate('FreeTimeSetting');
     }
 
     renderFreeTime() {
@@ -275,7 +280,7 @@ class PersonalSetting extends React.Component {
                 {
                     this.state.isInit ?
                         <View>
-                            <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
+                            <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.showMain.bind(this)}>
                                 完成注册
                         </Button>
                         </View>
@@ -313,7 +318,7 @@ class PersonalSetting extends React.Component {
                 <WhiteSpace />
                 <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />
                 <WhiteSpace style={{ height: 100 }} />
-                <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.onClick.bind(this)}>
+                <Button type='primary' style={[{ width: Width * .8, alignSelf: 'center' }]} onClick={this.showFreeTime.bind(this)}>
                     下一步
                     </Button>
             </WingBlank>
