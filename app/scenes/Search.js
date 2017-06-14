@@ -10,6 +10,7 @@ import {
     Flex,
     Toast,
     Button,
+    Badge,
     SearchBar,
     WingBlank,
     WhiteSpace
@@ -24,6 +25,7 @@ class Search extends React.Component {
 
         this.state = {
             value: '',
+            history: []
         }
     }
 
@@ -31,19 +33,42 @@ class Search extends React.Component {
     }
 
     onSubmit = async (value) => {
-        console.log('onSubmit = ' + value);
-        try{
-            let history = await getObjectForKey('ms_search_history');
-            if(history === null) {
-                setObjectForKey('ms_search_history', JSON.stringify([value]));
+        console.warn('onSubmit = ' + value);
+        try {
+            let historys = await getObjectForKey('ms_search_history');
+            let history = [];
+            if (historys === null) {
+                history.push(value);
             } else {
-                let historySet = new Set(history);
+                let historySet = new Set(historys);
                 historySet.add(value);
-                setObjectForKey('ms_search_history', [...historySet]);
+                history = [...historySet];
             }
-        } catch(e) {
+            setObjectForKey('ms_search_history', JSON.stringify(history));
+            console.warn(history);
+            this.setState({
+                history
+            })
+        } catch (e) {
 
         }
+    }
+
+    renderHistory = () => {
+        const history = this.state.history;
+        const names = [];
+        for (let i = 0; i < history.length; i++) {
+            const searchItem = history[i];
+            console.warn('item = ' + searchItem)
+            names.push(
+                <Text style={{borderWidth:1, borderColor: '#000', borderRadius: 5, margin: 5}}>{searchItem}</Text>
+            )
+        }
+        return (
+            <Flex direction='row' wrap='wrap'>
+                {names}
+            </Flex>
+        )
     }
 
     onCancel = () => {
@@ -61,14 +86,22 @@ class Search extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <SearchBar
-                    value={this.state.value}
-                    placeholder='XXX'
-                    onSubmit={this.onSubmit.bind(this)}
-                    onCancel={this.onCancel.bind(this)}
-                    onChange={this.onChange.bind(this)}
-                    showCancelButton
-                />
+                <WingBlank>
+                    <Flex direction='column'>
+                        <SearchBar
+                            value={this.state.value}
+                            placeholder='XXX'
+                            onSubmit={this.onSubmit.bind(this)}
+                            onCancel={this.onCancel.bind(this)}
+                            onChange={this.onChange.bind(this)}
+                            showCancelButton
+                        />
+                        <Text>历史纪录</Text>
+                        {
+                            this.renderHistory()
+                        }
+                    </Flex>
+                </WingBlank>
             </View>
         )
     }
