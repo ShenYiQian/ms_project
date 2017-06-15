@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Dimensions,
     BackHandler,
+    FlatList,
     View,
     Text
 } from 'react-native';
@@ -25,7 +26,8 @@ class Search extends React.Component {
 
         this.state = {
             value: '',
-            history: []
+            history: [],
+            findResult: []
         }
     }
 
@@ -62,8 +64,16 @@ class Search extends React.Component {
         this.getHistory(value);
     }
 
+    clearHistory = () => {
+        setObjectForKey('ms_search_history', []);
+        this.setState({
+            history: []
+        });
+    }
+
     renderHistory = () => {
         const history = this.state.history;
+        const findResult = this.state.findResult;
         const names = [];
         for (let i = 0; i < history.length; i++) {
             const searchItem = history[i];
@@ -78,10 +88,35 @@ class Search extends React.Component {
             )
         }
         return (
-            <Flex direction='row' wrap='wrap' align='start'>
-                {names}
-            </Flex>
+            findResult.length === 0 ?
+                <View style={{width: Width * .9}}>
+                    <Flex direction='row' align='center' justify='between'>
+                        <Text>历史纪录</Text>
+                        <Button type='ghost' size='small' onClick={this.clearHistory}>清空历史</Button>
+                    </Flex>
+                    <WhiteSpace />
+                    <Flex direction='row' wrap='wrap'>
+                        {names}
+                    </Flex>
+                </View>
+                :
+                <View />
         )
+    }
+
+    renderFindResult = () => {
+        const findResult = this.state.findResult;
+        if (findResult.length > 0) {
+            return (
+                <FlatList
+                    data={this.state.findResult}
+                />
+            )
+        } else {
+            return (
+                <View></View>
+            )
+        }
     }
 
     onCancel = () => {
@@ -103,16 +138,18 @@ class Search extends React.Component {
                     <Flex direction='column' align='start'>
                         <SearchBar
                             value={this.state.value}
-                            placeholder='XXX'
+                            placeholder='XXX医院/XXX医生'
                             onSubmit={this.onSubmit.bind(this)}
                             onCancel={this.onCancel.bind(this)}
                             onChange={this.onChange.bind(this)}
                             showCancelButton
                         />
                         <WhiteSpace size='lg' />
-                        <Text>历史纪录</Text>
                         {
                             this.renderHistory()
+                        }
+                        {
+                            this.renderFindResult()
                         }
                     </Flex>
                 </WingBlank>
