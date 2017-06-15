@@ -30,28 +30,36 @@ class Search extends React.Component {
     }
 
     componentDidMount() {
+        this.getHistory();
+    }
+
+    getHistory = async (value = null) => {
+        try {
+            let historys = await getObjectForKey('ms_search_history');
+            let newHistory = [];
+            if (value != null) {
+                if (historys === null) {
+                    newHistory.push(value);
+                } else {
+                    let historySet = new Set(historys);
+                    console.log('set is ', historySet);
+                    historySet.add(value);
+                    newHistory = [...historySet];
+                }
+                setObjectForKey('ms_search_history', newHistory);
+            } else {
+                newHistory = historys;
+            }
+            this.setState({
+                history: newHistory
+            })
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     onSubmit = async (value) => {
-        console.warn('onSubmit = ' + value);
-        try {
-            let historys = await getObjectForKey('ms_search_history');
-            let history = [];
-            if (historys === null) {
-                history.push(value);
-            } else {
-                let historySet = new Set(historys);
-                historySet.add(value);
-                history = [...historySet];
-            }
-            setObjectForKey('ms_search_history', JSON.stringify(history));
-            console.warn(history);
-            this.setState({
-                history
-            })
-        } catch (e) {
-
-        }
+        this.getHistory(value);
     }
 
     renderHistory = () => {
@@ -59,13 +67,18 @@ class Search extends React.Component {
         const names = [];
         for (let i = 0; i < history.length; i++) {
             const searchItem = history[i];
-            console.warn('item = ' + searchItem)
             names.push(
-                <Text style={{borderWidth:1, borderColor: '#000', borderRadius: 5, margin: 5}}>{searchItem}</Text>
+                <Text style={styles.searchItem} onPress={() => {
+                    this.setState({
+                        value: searchItem
+                    })
+                }}>
+                    {searchItem}
+                </Text>
             )
         }
         return (
-            <Flex direction='row' wrap='wrap'>
+            <Flex direction='row' wrap='wrap' align='start'>
                 {names}
             </Flex>
         )
@@ -87,7 +100,7 @@ class Search extends React.Component {
         return (
             <View style={styles.container}>
                 <WingBlank>
-                    <Flex direction='column'>
+                    <Flex direction='column' align='start'>
                         <SearchBar
                             value={this.state.value}
                             placeholder='XXX'
@@ -96,6 +109,7 @@ class Search extends React.Component {
                             onChange={this.onChange.bind(this)}
                             showCancelButton
                         />
+                        <WhiteSpace size='lg' />
                         <Text>历史纪录</Text>
                         {
                             this.renderHistory()
@@ -110,6 +124,13 @@ class Search extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    searchItem: {
+        borderWidth: 2,
+        borderColor: '#1C86EE',
+        borderRadius: 5,
+        margin: 5,
+        padding: 5
     }
 });
 

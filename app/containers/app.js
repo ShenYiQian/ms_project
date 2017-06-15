@@ -1,4 +1,4 @@
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import React from 'react';
 import Splash from '../scenes/Splash';
 import MainContainer from '../containers/MainContainer';
@@ -6,9 +6,10 @@ import EntranceContainer from '../containers/EntranceContainer';
 import SearchContainer from '../containers/SearchContainer';
 import PersonalSettingContainer from '../containers/PersonalSettingContainer';
 import FreeTimeSettingContainer from '../containers/FreeTimeSettingContainer';
+import TabBarComponent from '../components/TabBarComponent';
 
 import {
-    StyleSheet
+    StyleSheet,
 } from 'react-native';
 
 const TabContainer = TabNavigator(
@@ -21,6 +22,11 @@ const TabContainer = TabNavigator(
     {
         lazy: true,
         tabBarPosition: 'bottom',
+        tabBarComponent: (props) => {
+            return (
+                <TabBarComponent {...props} />
+            )
+        },
         tabBarOptions: {
             activeTintColor: '#3e9ce9',
             inactiveTintColor: '#999999',
@@ -46,7 +52,7 @@ const App = StackNavigator(
                 header: null
             }
         },
-        Entrance: { 
+        Entrance: {
             screen: EntranceContainer,
             navigationOptions: {
                 header: null
