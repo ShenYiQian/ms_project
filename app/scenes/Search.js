@@ -4,6 +4,7 @@ import {
     Dimensions,
     BackHandler,
     FlatList,
+    Image,
     View,
     Text
 } from 'react-native';
@@ -12,6 +13,7 @@ import {
     Toast,
     Button,
     Badge,
+    TextareaItem,
     SearchBar,
     WingBlank,
     WhiteSpace
@@ -27,7 +29,7 @@ class Search extends React.Component {
         this.state = {
             value: '',
             history: [],
-            findResult: []
+            findResult: [1, 1, 1, 1, 1, 1]
         }
     }
 
@@ -89,10 +91,15 @@ class Search extends React.Component {
         }
         return (
             findResult.length === 0 ?
-                <View style={{width: Width * .9}}>
+                <View style={{ width: Width * .9 }}>
                     <Flex direction='row' align='center' justify='between'>
                         <Text>历史纪录</Text>
-                        <Button type='ghost' size='small' onClick={this.clearHistory}>清空历史</Button>
+                        {
+                            this.state.history.length > 0 ?
+                                <Button type='ghost' size='small' onClick={this.clearHistory}>清空历史</Button>
+                                :
+                                <View />
+                        }
                     </Flex>
                     <WhiteSpace />
                     <Flex direction='row' wrap='wrap'>
@@ -104,12 +111,35 @@ class Search extends React.Component {
         )
     }
 
+    renderRow = (rowData) => {
+        const { item, index } = rowData;
+        return (
+            <View key={index}>
+                <Flex direction='row'>
+                    <Image source={require('../img/doctor.jpg')} style={{ width: 50, height: 50 }} />
+                    <Flex direction='column' align='start' justify='start'>
+                        <Text style={{fontSize: 18, fontWeight: 'bold', paddingLeft: 20}}>名称：XXX</Text>
+                        <TextareaItem style={{width: Width * .7}} autoHeight rows={2} editable={false} value='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' />
+                    </Flex>
+                </Flex>
+            </View>
+        )
+    }
+
+    renderSeparatorComponent() {
+        return (
+            <WhiteSpace style={{ backgroundColor: '#e9e9ef' }} />
+        )
+    }
+
     renderFindResult = () => {
         const findResult = this.state.findResult;
         if (findResult.length > 0) {
             return (
                 <FlatList
                     data={this.state.findResult}
+                    renderItem={this.renderRow.bind(this)}
+                    ItemSeparatorComponent={this.renderSeparatorComponent.bind(this)}
                 />
             )
         } else {
@@ -142,7 +172,6 @@ class Search extends React.Component {
                             onSubmit={this.onSubmit.bind(this)}
                             onCancel={this.onCancel.bind(this)}
                             onChange={this.onChange.bind(this)}
-                            showCancelButton
                         />
                         <WhiteSpace size='lg' />
                         {
