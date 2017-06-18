@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 class PersonalSettingContainer extends React.Component {
     static navigationOptions = {
-        title: '我',
+        title: '用户',
         tabBarIcon: ({ tintColor }) => (
             <FontAwesome name="user-circle-o" size={25} color={tintColor} />
         )
