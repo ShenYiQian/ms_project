@@ -6,6 +6,7 @@ import EntranceContainer from '../containers/EntranceContainer';
 import SearchContainer from '../containers/SearchContainer';
 import PersonalSettingContainer from '../containers/PersonalSettingContainer';
 import FreeTimeSettingContainer from '../containers/FreeTimeSettingContainer';
+import OrdersContainer from '../containers/OrdersContainer';
 import TabBarComponent from '../components/TabBarComponent';
 
 import {
@@ -16,7 +17,7 @@ const TabContainer = TabNavigator(
     {
         Main: { screen: MainContainer },
         Search: { screen: SearchContainer },
-        Main2: { screen: MainContainer },
+        Orders: { screen: OrdersContainer },
         Self: { screen: PersonalSettingContainer }
     },
     {
