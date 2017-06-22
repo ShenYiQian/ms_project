@@ -23,6 +23,7 @@ const TabContainer = TabNavigator(
     {
         lazy: true,
         tabBarPosition: 'bottom',
+        swipeEnabled: false,
         tabBarComponent: (props) => {
             return (
                 <TabBarComponent {...props} />
