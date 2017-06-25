@@ -16,35 +16,14 @@ const propTypes = {
     main: PropTypes.object.isRequired
 };
 
-const contextTypes = {
-    routes: PropTypes.object.isRequired
-}
-
 class Main extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-
-    onClick = () => {
-        const { routes } = this.context;
-        routes.personalSetting();
-    }
-
     render() {
         return (
             <View>
-                <Text>
-                    aaaaa
-                </Text>
-                <Button type='primary' onClick={this.onClick}>测试</Button>
             </View>
         )
     }
@@ -57,6 +36,5 @@ const styles = StyleSheet.create({
 });
 
 Main.propTypes = propTypes;
-Main.contextTypes = contextTypes;
 
 export default Main;

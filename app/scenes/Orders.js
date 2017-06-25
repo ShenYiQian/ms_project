@@ -11,6 +11,7 @@ import {
 import {
     WingBlank,
     WhiteSpace,
+    Button,
     Flex,
     Tabs
 } from 'antd-mobile';
@@ -24,8 +25,8 @@ class Orders extends React.Component {
         super(props);
 
         this.state = {
-            requestList: [],
-            inviteList: []
+            requestList: [1, 1, 1, 1, 1, 1, 1, 1, 1],
+            inviteList: [1,2,3,4,5,6,7,8,9]
         }
     }
 
@@ -38,11 +39,24 @@ class Orders extends React.Component {
     }
 
     renderRequestRow = (rowData) => {
+        const { item, index } = rowData;
         return (
             <View>
-                <Text>
-                    申请列表
-                </Text>
+                <WingBlank>
+                    <Flex style={{ paddingTop: 5, paddingBottom: 5 }} direction='column' justify='center' align='center'>
+                        <Flex style={{ width: Width * .8 }} direction='row' justify='between' align='center'>
+                            <Text>被申请方</Text>
+                            <Button style={{ marginLeft: 20 }} type='ghost' size='small' onClick={() => {
+                                console.log('refuse click');
+                            }}>取消</Button>
+                        </Flex>
+                        <Flex style={{ width: Width * .8 }} direction='row' justify='start' align='center'>
+                            <Text>科室</Text>
+                            <Text style={{ marginLeft: 40 }}>周五</Text>
+                            <Text style={{ marginLeft: 40 }}>上午</Text>
+                        </Flex>
+                    </Flex>
+                </WingBlank>
             </View>
         )
     }
@@ -50,16 +64,33 @@ class Orders extends React.Component {
     renderInviteRow = (rowData) => {
         return (
             <View>
-                <Text>
-                    邀请列表
-                </Text>
+                <WingBlank>
+                    <Flex style={{ paddingTop: 5, paddingBottom: 5 }} direction='column' justify='center' align='center'>
+                        <Flex style={{ width: Width * .8 }} direction='row' justify='between' align='center'>
+                            <Text>邀请方</Text>
+                            <Flex direction='row' justify='center' align='center'>
+                                <Button type='ghost' size='small' onClick={() => {
+                                    console.log('agree click');
+                                }}>同意</Button>
+                                <Button style={{ marginLeft: 20 }} type='ghost' size='small' onClick={() => {
+                                    console.log('refuse click');
+                                }}>拒绝</Button>
+                            </Flex>
+                        </Flex>
+                        <Flex style={{ width: Width * .8 }} direction='row' justify='start' align='center'>
+                            <Text>科室</Text>
+                            <Text style={{ marginLeft: 40 }}>周五</Text>
+                            <Text style={{ marginLeft: 40 }}>上午</Text>
+                        </Flex>
+                    </Flex>
+                </WingBlank>
             </View>
         )
     }
 
     renderSeparatorComponent() {
         return (
-            <WhiteSpace style={{ backgroundColor: '#e9e9ef' }} />
+            <WhiteSpace style={{ backgroundColor: '#ddd' }} />
         )
     }
 

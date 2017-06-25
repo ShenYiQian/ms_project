@@ -52,7 +52,7 @@ class Search extends React.Component {
                 }
                 setObjectForKey('ms_search_history', newHistory);
             } else {
-                newHistory = historys;
+                newHistory = historys == null ? [] : historys;
             }
             this.setState({
                 history: newHistory
@@ -74,8 +74,7 @@ class Search extends React.Component {
     }
 
     renderHistory = () => {
-        const history = this.state.history;
-        const findResult = this.state.findResult;
+        const { findResult, history } = this.state;
         const names = [];
         for (let i = 0; i < history.length; i++) {
             const searchItem = history[i];
