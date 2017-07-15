@@ -4,6 +4,8 @@ import {
     Dimensions,
     BackHandler,
     ScrollView,
+    TouchableOpacity,
+    Image,
     View,
     Text
 } from 'react-native';
@@ -53,7 +55,7 @@ class PersonalSetting extends React.Component {
             officeValue: ['gk'],
             titleValue: ['zzys'],
             freeValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            isDoctor: true,
+            isDoctor: null,
             isInit
         }
     }
@@ -99,7 +101,7 @@ class PersonalSetting extends React.Component {
 
     showFreeTime = () => {
         const { navigate } = this.props.navigation;
-        navigate('FreeTimeSetting');
+        navigate('FreeTimeSetting', {navigatePress: this.showMain.bind(this)});
     }
 
     renderFreeTime() {
@@ -172,6 +174,32 @@ class PersonalSetting extends React.Component {
                 <View />
             )
         }
+    }
+
+    renderChooseId() {
+        return (
+            <WingBlank>
+                <Flex direction='column'>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>请选择您的身份</Text>
+                    <WhiteSpace size='lg' />
+                    <TouchableOpacity onPress={() => {
+                        this.setState({
+                            isDoctor: true
+                        })
+                    }}>
+                        <Image style={{ width: Height * .4, height: Height * .4 }} resizeMode='cover' source={require('../img/doctor.jpg')} />
+                    </TouchableOpacity>
+                    <WhiteSpace size='lg' />
+                    <TouchableOpacity onPress={() => {
+                        this.setState({
+                            isDoctor: false
+                        })
+                    }}>
+                        <Image style={{ width: Height * .4, height: Height * .4 }} resizeMode='cover' source={require('../img/hospital.jpg')} />
+                    </TouchableOpacity>
+                </Flex>
+            </WingBlank>
+        )
     }
 
     renderDoctor() {
@@ -328,10 +356,13 @@ class PersonalSetting extends React.Component {
             <ScrollView>
                 <View style={styles.container}>
                     {
-                        this.state.isDoctor ?
-                            this.renderDoctor()
+                        this.state.isDoctor === null ?
+                            this.renderChooseId()
                             :
-                            this.renderHospital()
+                            this.state.isDoctor ?
+                                this.renderDoctor()
+                                :
+                                this.renderHospital()
                     }
                 </View>
             </ScrollView>
