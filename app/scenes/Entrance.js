@@ -3,6 +3,8 @@ import {
     StyleSheet,
     Dimensions,
     Animated,
+    BackHandler,
+    Keyboard
     View,
     Text
 } from 'react-native';
@@ -45,16 +47,21 @@ class Entrance extends React.Component {
     }
 
     componentDidMount() {
-
+        BackHandler.addEventListener('hardwareBackPress', this.onBack);
     }
 
     componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBack);
+    }
 
+    onBack() {
+        return true;
     }
 
     componentWillReceiveProps(nextProps) {
         const { entrance } = this.props;
         const { entrance: nextEntrance } = nextProps;
+        const { navigate } = this.props.navigation;
         if (entrance.isLogin || entrance.isRegister) {
             return;
         }
@@ -65,10 +72,13 @@ class Entrance extends React.Component {
         }
         if (entrance.isLoading && !nextEntrance.isLoading) {
             if (!entrance.isRegister && nextEntrance.isRegister) {
-                Toast.success('注册成功');
+                Toast.success('注册成功', 1, () => {
+                    navigate('InitSetting', { 'init': true });
+                });
             }
             if (!entrance.isLogin && nextEntrance.isLogin) {
-                Toast.success('登陆成功');
+                //Toast.success('登陆成功');
+
             }
             if (nextEntrance.payload && typeof (nextEntrance.payload) === 'string') {
                 Toast.fail(nextEntrance.payload);
@@ -82,10 +92,13 @@ class Entrance extends React.Component {
     }
 
     onRegisterClick() {
+        if(this.state.isLoading) {
+            return;
+        }
         const { navigate } = this.props.navigation;
-        navigate('InitSetting', {'init': true});
+        //navigate('InitSetting', {'init': true});
         //routes.initialSetting();
-        /*const mobileValue = this.state.mobileValue;
+        const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);
         if (this.state.mobileValue.length <= 0) {
             Toast.fail('请填写您的手机号码');
@@ -100,10 +113,13 @@ class Entrance extends React.Component {
         } else {
             const { entranceActions } = this.props;
             entranceActions.fetchRegister(trimStr, this.state.pswdValue, this.state.pswdCfmValue);
-        }*/
+        }
     }
 
     onLoginClick() {
+        if(this.state.isLoading) {
+            return;
+        }
         const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);
         if (this.state.mobileValue.length <= 0) {
