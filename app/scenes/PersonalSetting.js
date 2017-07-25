@@ -55,11 +55,7 @@ class PersonalSetting extends React.Component {
             officeValue: ['gk'],
             titleValue: ['zzys'],
             freeValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-<<<<<<< HEAD
-            isDoctor: false,
-=======
             isDoctor: null,
->>>>>>> cfe55cb81d4d841ae66ef150bf0a3f9301e971a3
             isInit
         }
     }
@@ -105,11 +101,7 @@ class PersonalSetting extends React.Component {
 
     showFreeTime = () => {
         const { navigate } = this.props.navigation;
-<<<<<<< HEAD
-        navigate('FreeTimeSetting', {navigatePress:this.showMain});
-=======
         navigate('FreeTimeSetting', {navigatePress: this.showMain.bind(this)});
->>>>>>> cfe55cb81d4d841ae66ef150bf0a3f9301e971a3
     }
 
     renderFreeTime() {
