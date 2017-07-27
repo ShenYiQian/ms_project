@@ -4,7 +4,7 @@ import {
     Dimensions,
     Animated,
     BackHandler,
-    Keyboard
+    Keyboard,
     View,
     Text
 } from 'react-native';
@@ -18,6 +18,8 @@ import {
 import {
     trimString
 } from '../utils/ToolUtils';
+
+const dismissKeyboard = require('dismissKeyboard');  
 
 const { width: Width, height: Height } = Dimensions.get('window');
 
@@ -72,6 +74,7 @@ class Entrance extends React.Component {
         }
         if (entrance.isLoading && !nextEntrance.isLoading) {
             if (!entrance.isRegister && nextEntrance.isRegister) {
+                dismissKeyboard(); 
                 Toast.success('注册成功', 1, () => {
                     navigate('InitSetting', { 'init': true });
                 });
