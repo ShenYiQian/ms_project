@@ -26,6 +26,7 @@ import {
 import cityConst from '../constants/cityConst';
 import officeConst from '../constants/officeConst';
 import titleConst from '../constants/titleConst';
+import hospitalConst from '../constants/hospitalConst';
 
 const { width: Width, height: Height } = Dimensions.get('window');
 
@@ -53,6 +54,7 @@ class PersonalSetting extends React.Component {
             company: '',
             cityValue: ['shs', 'shs'],
             officeValue: ['gk'],
+            hospitalValue: ['sj'],
             titleValue: ['zzys'],
             freeValue: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             isDoctor: null,
@@ -91,6 +93,12 @@ class PersonalSetting extends React.Component {
     onChangeTitle = (value) => {
         this.setState({
             titleValue: value
+        })
+    }
+    
+    onChangeHospital = (value) => {
+        this.setState({
+            hospitalValue: value
         })
     }
 
@@ -336,10 +344,19 @@ class PersonalSetting extends React.Component {
                 <Picker
                     data={cityConst}
                     cols={2}
-                    value={this.state.value}
-                    onChange={this.onChange}
+                    value={this.state.cityValue}
+                    onChange={this.onChangeCity}
                 >
                     <List.Item arrow='horizontal' last> 所在城市 </List.Item>
+                </Picker>
+                <WhiteSpace />
+                <Picker
+                    data={hospitalConst}
+                    cols={1}
+                    value={this.state.hospitalValue}
+                    onChange={this.onChangeHospital}
+                >
+                    <List.Item arrow='horizontal' last> 医院等级 </List.Item>
                 </Picker>
                 <WhiteSpace />
                 <TextareaItem rows={4} placeholder='自我描述(最多100个字)' count={100} />

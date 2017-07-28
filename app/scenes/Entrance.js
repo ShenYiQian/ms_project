@@ -99,8 +99,9 @@ class Entrance extends React.Component {
             return;
         }
         const { navigate } = this.props.navigation;
-        //navigate('InitSetting', {'init': true});
+        navigate('InitSetting', {'init': true});
         //routes.initialSetting();
+        /*
         const mobileValue = this.state.mobileValue;
         const trimStr = trimString(mobileValue);
         if (this.state.mobileValue.length <= 0) {
@@ -116,7 +117,7 @@ class Entrance extends React.Component {
         } else {
             const { entranceActions } = this.props;
             entranceActions.fetchRegister(trimStr, this.state.pswdValue, this.state.pswdCfmValue);
-        }
+        }*/
     }
 
     onLoginClick() {
